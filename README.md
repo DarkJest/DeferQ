@@ -7,7 +7,7 @@ Async task manager for PHP 8.4 with built-in deduplication, result caching (PSR-
 ## Installation
 
 ```bash
-composer require deferq/deferq
+composer require darkjest/deferq
 ```
 
 For Redis queue support:

@@ -5,7 +5,7 @@
 ## Установка
 
 ```bash
-composer require deferq/deferq
+composer require darkjest/deferq
 ```
 
 Для поддержки очереди через Redis:

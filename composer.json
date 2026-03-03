@@ -1,5 +1,5 @@
 {
-    "name": "deferq/deferq",
+    "name": "darkjest/deferq",
     "description": "Async task manager with deduplication, result caching and callback notifications",
     "type": "library",
     "license": "MIT",
@@ -9,6 +9,11 @@
             "role": "Developer"
         }
     ],
+    "homepage": "https://github.com/DarkJest/DeferQ",
+    "support": {
+        "issues": "https://github.com/DarkJest/DeferQ/issues",
+        "source": "https://github.com/DarkJest/DeferQ"
+    },
     "keywords": ["async", "queue", "deduplication", "task", "worker", "cache"],
     "require": {
         "php": "^8.4",
