@@ -1,0 +1,75 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/**
+ * DeferQ CLI Worker
+ *
+ * Usage:
+ *   php bin/deferq-worker --bootstrap=worker-bootstrap.php [options]
+ *
+ * Options:
+ *   --bootstrap    Path to bootstrap file that returns a configured Worker instance (required)
+ *   --sleep        Sleep time in milliseconds between polls (default: 1000)
+ *   --max-jobs     Maximum jobs to process before stopping, 0 = unlimited (default: 0)
+ *   --max-memory   Maximum memory in MB before stopping (default: 128)
+ *   --timeout      Task timeout in seconds (default: 300)
+ */
+
+$options = getopt('', [
+    'bootstrap:',
+    'sleep:',
+    'max-jobs:',
+    'max-memory:',
+    'timeout:',
+]);
+
+if (!isset($options['bootstrap'])) {
+    fwrite(STDERR, "Error: --bootstrap is required\n");
+    fwrite(STDERR, "Usage: php bin/deferq-worker --bootstrap=path/to/bootstrap.php\n");
+    exit(1);
+}
+
+$bootstrapFile = $options['bootstrap'];
+
+if (!file_exists($bootstrapFile)) {
+    fwrite(STDERR, "Error: Bootstrap file not found: {$bootstrapFile}\n");
+    exit(1);
+}
+
+// CLI arguments override WorkerConfig from bootstrap
+$cliOverrides = [];
+
+if (isset($options['sleep'])) {
+    $cliOverrides['sleepMs'] = (int) $options['sleep'];
+}
+
+if (isset($options['max-jobs'])) {
+    $cliOverrides['maxJobs'] = (int) $options['max-jobs'];
+}
+
+if (isset($options['max-memory'])) {
+    $cliOverrides['maxMemoryMb'] = (int) $options['max-memory'];
+}
+
+if (isset($options['timeout'])) {
+    $cliOverrides['taskTimeoutSeconds'] = (int) $options['timeout'];
+}
+
+// Store overrides in a global so bootstrap can access them
+$GLOBALS['deferq_cli_overrides'] = $cliOverrides;
+
+/** @var \DeferQ\Worker\Worker $worker */
+$worker = require $bootstrapFile;
+
+if (!$worker instanceof \DeferQ\Worker\Worker) {
+    fwrite(STDERR, "Error: Bootstrap file must return a \\DeferQ\\Worker\\Worker instance\n");
+    exit(1);
+}
+
+fwrite(STDOUT, "DeferQ Worker starting...\n");
+
+$worker->run();
+
+fwrite(STDOUT, "DeferQ Worker finished. Processed {$worker->getProcessedJobs()} jobs.\n");

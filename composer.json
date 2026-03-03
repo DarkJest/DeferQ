@@ -1,0 +1,40 @@
+{
+    "name": "deferq/deferq",
+    "description": "Async task manager with deduplication, result caching and callback notifications",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["async", "queue", "deduplication", "task", "worker", "cache"],
+    "require": {
+        "php": "^8.4",
+        "psr/simple-cache": "^3.0",
+        "psr/log": "^3.0",
+        "ramsey/uuid": "^4.7"
+    },
+    "require-dev": {
+        "predis/predis": "^2.0",
+        "php-amqplib/php-amqplib": "^3.7",
+        "phpunit/phpunit": "^11.0"
+    },
+    "suggest": {
+        "predis/predis": "Required for RedisQueueAdapter",
+        "php-amqplib/php-amqplib": "Required for RabbitMQQueueAdapter",
+        "opis/closure": "Required for serializing Closure callbacks"
+    },
+    "autoload": {
+        "psr-4": {
+            "DeferQ\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DeferQ\\Tests\\": "tests/"
+        }
+    },
+    "bin": [
+        "bin/deferq-worker"
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}
