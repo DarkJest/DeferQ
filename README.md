@@ -321,6 +321,10 @@ php bin/deferq-worker --bootstrap=worker-bootstrap.php --max-jobs=1000 --sleep=5
 
 The CLI worker handles `SIGTERM` and `SIGINT` for graceful shutdown. When a signal is received, the worker finishes processing the current task before exiting.
 
+## Author
+
+**DarkJest**
+
 ## License
 
 MIT

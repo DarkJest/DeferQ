@@ -3,6 +3,12 @@
     "description": "Async task manager with deduplication, result caching and callback notifications",
     "type": "library",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "DarkJest",
+            "role": "Developer"
+        }
+    ],
     "keywords": ["async", "queue", "deduplication", "task", "worker", "cache"],
     "require": {
         "php": "^8.4",
